@@ -13,4 +13,9 @@
     <PackageReference Include="coverlet.collector" Version="1.2.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MarsRoverCase.Application\MarsRoverCase.Application.csproj" />
+    <ProjectReference Include="..\MarsRoverCase.Infrastructure\MarsRoverCase.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
