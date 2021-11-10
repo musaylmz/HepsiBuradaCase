@@ -6,7 +6,7 @@ namespace MarsRoverCase.Domain.States
 {
     public class DirectionStateFactory
     {
-        public static DirectionState Create(Position position, Plateau plateau)
+        public static DirectionState Create(PositionModel position, PlateauModel plateau)
         {
             return position.Direction switch
             {

@@ -22,10 +22,10 @@ namespace MarsRoverCase.UnitTest
         public void SetPosition_WhenValidParameters_ReturnSuccess(string deploymentPositionRequest)
         {
             var deploymentPositionParams = deploymentPositionRequest.ConvertToStringList();
-            var plateau = new Plateau(5, 5);
+            var plateau = new PlateauModel(5, 5);
 
-            var result = _deploymentPositionService.SetPosition(plateau, deploymentPositionRequest);
-            var deploymentPosition = (Position)result.Data;
+            var result = _deploymentPositionService.SetDeploymentPosition(plateau, deploymentPositionRequest);
+            var deploymentPosition = (PositionModel)result.Data;
 
             Assert.True(result.IsSuccess);
             Assert.Equal(deploymentPosition.X, int.Parse(deploymentPositionParams[0]));
@@ -40,9 +40,9 @@ namespace MarsRoverCase.UnitTest
         [InlineData("E")]
         public void SetPosition_WhenInvalidCoordinateParameters_ReturnError(string deploymentPositionRequest)
         {
-            var plateau = new Plateau(5, 5);
+            var plateau = new PlateauModel(5, 5);
 
-            var result = _deploymentPositionService.SetPosition(plateau, deploymentPositionRequest);
+            var result = _deploymentPositionService.SetDeploymentPosition(plateau, deploymentPositionRequest);
 
             Assert.False(result.IsSuccess);
             Assert.Null(result.Data);
@@ -54,11 +54,11 @@ namespace MarsRoverCase.UnitTest
         [InlineData("2 7 E")]
         [InlineData("5 3 W")]
         [InlineData("6 2 N")]
-        public void SetPosition_WhenOutOfBoundsParams_ReturnError(string deploymentPositionRequest)
+        public void SetPosition_WhenOutPlateauParameters_ReturnError(string deploymentPositionRequest)
         {
-            var plateau = new Plateau(2, 2);
+            var plateau = new PlateauModel(2, 2);
 
-            var result = _deploymentPositionService.SetPosition(plateau, deploymentPositionRequest);
+            var result = _deploymentPositionService.SetDeploymentPosition(plateau, deploymentPositionRequest);
 
             Assert.False(result.IsSuccess);
             Assert.Null(result.Data);

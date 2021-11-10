@@ -1,11 +1,9 @@
 ﻿using MarsRoverCase.Application.Extensions;
 using MarsRoverCase.Application.Interfaces;
 using MarsRoverCase.ConsoleApp.Helpers;
-using MarsRoverCase.Domain.Enums;
 using MarsRoverCase.Domain.Models;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Linq;
 
 namespace MarsRoverCase.ConsoleApp
 {
@@ -23,23 +21,27 @@ namespace MarsRoverCase.ConsoleApp
             _plateauService = serviceProvider.GetService<IPlateauService>();
             _deploymentPositionService = serviceProvider.GetService<IDeploymentPositionService>();
 
-            Start();
+            StartMarsRover();
         }
 
-        private static void Start()
+        private static void StartMarsRover()
         {
-            Console.WriteLine("Mars Rover Application");
+            Console.WriteLine("Mars Rover Application Started");
 
             var plateau = DrawPlateau();
 
             var deploymentPosition = DeploymentPosition(plateau);
 
-            var rover = RoverMovement(plateau, deploymentPosition);
+            var rover = MoveRover(plateau, deploymentPosition);
 
-            Console.WriteLine($"Rover position: {rover.Position.X} {rover.Position.Y} {rover.Position.Direction}");
+            Console.WriteLine($"Rover move successful. Position: {rover.Position.X} {rover.Position.Y} {rover.Position.Direction}");
         }
 
-        private static Plateau DrawPlateau()
+        /// <summary>
+        /// Konsoldan girilen değere göre platoyu oluşturur.
+        /// </summary>
+        /// <returns>Plateau model</returns>
+        private static PlateauModel DrawPlateau()
         {
             Console.WriteLine("Enter plateau parameter: (Exp: 5 5)");
 
@@ -48,43 +50,55 @@ namespace MarsRoverCase.ConsoleApp
             if (!plateauResponse.IsSuccess)
                 Exit(plateauResponse.Message);
 
-            return (Plateau)plateauResponse.Data;
+            return (PlateauModel)plateauResponse.Data;
         }
 
-        private static Position DeploymentPosition(Plateau plateau)
+        /// <summary>
+        /// Konsoldan girilen değere göre aracın plato üzerine yerleştirilmesini sağlar.
+        /// </summary>
+        /// <returns>Position model</returns>
+        private static PositionModel DeploymentPosition(PlateauModel plateau)
         {
             Console.WriteLine("Enter rover deployment position of plateau parameter: (Exp: 1 2 N)");
 
-            var deploymentPositionResponse = _deploymentPositionService.SetPosition(plateau, Console.ReadLine());
+            var deploymentPositionResponse = _deploymentPositionService.SetDeploymentPosition(plateau, Console.ReadLine().ToUpper());
 
             if (!deploymentPositionResponse.IsSuccess)
                 Exit(deploymentPositionResponse.Message);
 
-            return (Position)deploymentPositionResponse.Data;
+            return (PositionModel)deploymentPositionResponse.Data;
         }
 
-        private static Rover RoverMovement(Plateau plateau, Position deploymentPosition)
+        /// <summary>
+        /// Aracın plato üzerinde hareketini gerçekleştirir.
+        /// </summary>
+        /// <returns>Rover model</returns>
+        private static RoverModel MoveRover(PlateauModel plateau, PositionModel deploymentPosition)
         {
             Console.WriteLine("Enter rover movement parameter: (Exp: LMLMLMLMM)");
 
-            var roverMovementParams = Console.ReadLine();
+            var movementTypes = Console.ReadLine().ToUpper().ConvertToMovementTypes();
 
-            if (!roverMovementParams.CheckMovementParams())
+            if (movementTypes == null)
                 Exit("Invalid parameters of rover movement");
 
-            var rover = new Rover(deploymentPosition, plateau)
+            var rover = new RoverModel(deploymentPosition, plateau)
             {
-                Movements = roverMovementParams.ToCharArray().Select(x => Enum.Parse<MovementType>(x.ToString())).ToList()
+                Movements = movementTypes
             };
 
-            var roverMovementResponse = _roverService.RoverMovement(rover);
+            var roverMovementResponse = _roverService.MoveRover(rover);
 
             if (!roverMovementResponse.IsSuccess)
                 Exit(roverMovementResponse.Message);
 
-            return (Rover)roverMovementResponse.Data;
+            return (RoverModel)roverMovementResponse.Data;
         }
 
+        /// <summary>
+        /// Hata olması durumunda konsola hata mesajı yazarak, uygulamayı durdurur.
+        /// </summary>
+        /// <param name="message">Hata mesajı</param>
         private static void Exit(string message)
         {
             Console.WriteLine(message);

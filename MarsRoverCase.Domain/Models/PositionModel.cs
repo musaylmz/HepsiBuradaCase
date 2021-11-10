@@ -2,9 +2,9 @@
 
 namespace MarsRoverCase.Domain.Models
 {
-    public class Position
+    public class PositionModel
     {
-        public Position(int x, int y, DirectionType direction)
+        public PositionModel(int x, int y, DirectionType direction)
         {
             X = x;
             Y = y;

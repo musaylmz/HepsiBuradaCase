@@ -1,16 +1,24 @@
 ﻿using MarsRoverCase.Domain.Enums;
 using System;
+using System.Collections.Generic;
 
 namespace MarsRoverCase.Application.Extensions
 {
     public static class RoverExtension
     {
-        public static bool CheckMovementParams(this string roverMovementParams)
+        /// <summary>
+        /// Araç hareketi için girilen değeri kontrol eder, uygunsa hareket listesi oluşturur
+        /// </summary>
+        /// <param name="roverMovementParams">Araç hareket parametresi</param>
+        /// <returns>Rover hareket listesi</returns>
+        public static List<MovementType> ConvertToMovementTypes(this string roverMovementParams)
         {
             roverMovementParams = roverMovementParams.Trim();
 
             if (string.IsNullOrEmpty(roverMovementParams))
-                return false;
+                return null;
+
+            var movementTypes = new List<MovementType>();
 
             var roverMovementParamsArr = roverMovementParams.ToCharArray();
 
@@ -19,10 +27,12 @@ namespace MarsRoverCase.Application.Extensions
                 _ = Enum.TryParse(param.ToString(), out MovementType movement);
 
                 if (movement == 0)
-                    return false;
+                    return null;
+
+                movementTypes.Add(movement);
             }
 
-            return true;
+            return movementTypes;
         }
     }
 }

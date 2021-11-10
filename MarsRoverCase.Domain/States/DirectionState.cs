@@ -4,9 +4,9 @@ namespace MarsRoverCase.Domain.States
 {
     public abstract class DirectionState
     {
-        public Position Position { get; set; }
-        public Plateau Plateau { get; set; }
-        public DirectionState(Position position, Plateau plateau)
+        public PositionModel Position { get; set; }
+        public PlateauModel Plateau { get; set; }
+        public DirectionState(PositionModel position, PlateauModel plateau)
         {
             this.Position = position;
             this.Plateau = plateau;

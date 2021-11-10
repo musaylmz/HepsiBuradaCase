@@ -1,5 +1,5 @@
-﻿using MarsRoverCase.Application;
-using MarsRoverCase.Application.Interfaces;
+﻿using MarsRoverCase.Application.Interfaces;
+using MarsRoverCase.Application.Wrappers;
 using MarsRoverCase.Domain.Enums;
 using MarsRoverCase.Domain.Models;
 using System;
@@ -8,14 +8,17 @@ namespace MarsRoverCase.Infrastructure.Services
 {
     public class RoverService : IRoverService
     {
-        public BaseResponse RoverMovement(Rover rover)
+        /// <summary>
+        /// Aracın plato üzerinde hareketini gerçekleştirir.
+        /// </summary>
+        public BaseResponse MoveRover(RoverModel rover)
         {
-            foreach (var movingDirection in rover.Movements)
+            foreach (var movement in rover.Movements)
             {
                 bool isOutPlateau = false;
                 GetLastPosition(rover, out string lastPosition);
 
-                switch (movingDirection)
+                switch (movement)
                 {
                     case MovementType.L:
                         rover.MoveLeft();
@@ -30,16 +33,25 @@ namespace MarsRoverCase.Infrastructure.Services
                         throw new ArgumentOutOfRangeException();
                 }
 
+                // Araç plato dışına çıkarsa hareket sonlandırılır ve son konum bilgisi döndürülür
                 if (isOutPlateau)
-                    return BaseResponse.ReturnAsError(message: $"Rover cannot move out of the plateau! Last position : {lastPosition}");
+                    return BaseResponse.ReturnAsError(message: $"Rover cannot move outside the plateau! Last position : {lastPosition}");
             }
 
             return BaseResponse.ReturnAsSuccess(rover);
         }
 
-        private static void GetLastPosition(Rover rover, out string lastPosition)
+
+        #region Private Methods
+
+        /// <summary>
+        /// Aracın son konum bilgisini döndürür.
+        /// </summary>
+        private static void GetLastPosition(RoverModel rover, out string lastPosition)
         {
             lastPosition = $"{rover.Position.X} {rover.Position.Y} {rover.Position.Direction}";
         }
+
+        #endregion
     }
 }

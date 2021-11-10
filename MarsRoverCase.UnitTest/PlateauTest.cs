@@ -24,7 +24,7 @@ namespace MarsRoverCase.UnitTest
             var plateauParams = plateauRequest.ConvertToStringList();
 
             var result = _plateauService.DrawPlateau(plateauRequest);
-            var plateau = (Plateau)result.Data;
+            var plateau = (PlateauModel)result.Data;
 
             Assert.True(result.IsSuccess);
             Assert.Equal(plateau.Width, int.Parse(plateauParams.First()));
@@ -36,7 +36,7 @@ namespace MarsRoverCase.UnitTest
         [InlineData("0 5")]
         [InlineData("5 0")]
         [InlineData("0 0")]
-        public void DrawPlateau_WhenPointsIsZero_ReturnError(string plateauRequest)
+        public void DrawPlateau_WhenPointsIsZeroParameters_ReturnError(string plateauRequest)
         {
             var result = _plateauService.DrawPlateau(plateauRequest);
 
@@ -49,7 +49,7 @@ namespace MarsRoverCase.UnitTest
         [InlineData("5")]
         [InlineData("5 1 3")]
         [InlineData("3 one")]
-        public void DrawPlateau_WhenInvalidParams_ReturnError(string plateauRequest)
+        public void DrawPlateau_WhenInvalidParameters_ReturnError(string plateauRequest)
         {
             var result = _plateauService.DrawPlateau(plateauRequest);
 

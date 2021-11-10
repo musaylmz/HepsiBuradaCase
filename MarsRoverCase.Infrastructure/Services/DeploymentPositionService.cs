@@ -1,35 +1,43 @@
-﻿using MarsRoverCase.Application;
-using MarsRoverCase.Application.Extensions;
+﻿using MarsRoverCase.Application.Extensions;
 using MarsRoverCase.Application.Interfaces;
-using MarsRoverCase.Domain.Enums;
+using MarsRoverCase.Application.Wrappers;
 using MarsRoverCase.Domain.Models;
-using System;
 
 namespace MarsRoverCase.Infrastructure.Services
 {
     public class DeploymentPositionService : IDeploymentPositionService
     {
-        public BaseResponse SetPosition(Plateau plateau, string deploymentPositionRequest)
+        /// <summary>
+        /// Aracın plato üzerine yerleştirilmesini sağlar.
+        /// </summary>
+        public BaseResponse SetDeploymentPosition(PlateauModel plateau, string deploymentPositionRequest)
         {
             var deploymentPositionParams = deploymentPositionRequest.ConvertToStringList();
 
-            if (!deploymentPositionParams.CheckDeploymentPositionParams())
-                return BaseResponse.ReturnAsError(message: "Invalid parameters for deployment point on plateau");
+            var position = deploymentPositionParams.ConvertToPositionModel();
 
-            var position = new Position(int.Parse(deploymentPositionParams[0]), int.Parse(deploymentPositionParams[1]), (DirectionType)Enum.Parse(typeof(DirectionType), deploymentPositionParams[2]));
+            if (position == null)
+                return BaseResponse.ReturnAsError(message: "Invalid parameters for rover deployment position on plateau");
 
             if (!CheckDeploymentPosition(plateau, position))
-                return BaseResponse.ReturnAsError(message: "Rover can't located on plateau.");
+                return BaseResponse.ReturnAsError(message: "Rover must be positioned in the plateau");
 
             return BaseResponse.ReturnAsSuccess(position);
         }
 
-        private static bool CheckDeploymentPosition(Plateau plateau, Position position)
+        #region Private Methods
+
+        /// <summary>
+        /// Aracın plato üzerine yerleştirilmesi için platoya göre kontrolünü yapar.
+        /// </summary>
+        private static bool CheckDeploymentPosition(PlateauModel plateau, PositionModel position)
         {
             if (plateau.Width < position.X || plateau.Height < position.Y || position.X < 0 || position.Y < 0)
                 return false;
 
             return true;
         }
+
+        #endregion
     }
 }

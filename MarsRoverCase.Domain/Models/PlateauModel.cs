@@ -1,8 +1,8 @@
 ﻿namespace MarsRoverCase.Domain.Models
 {
-    public class Plateau
+    public class PlateauModel
     {
-        public Plateau(int width, int height)
+        public PlateauModel(int width, int height)
         {
             Width = width;
             Height = height;

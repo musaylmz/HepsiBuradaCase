@@ -1,4 +1,4 @@
-﻿namespace MarsRoverCase.Application
+﻿namespace MarsRoverCase.Application.Wrappers
 {
     public class BaseResponse
     {

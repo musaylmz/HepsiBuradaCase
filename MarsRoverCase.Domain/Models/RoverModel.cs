@@ -4,13 +4,13 @@ using System.Collections.Generic;
 
 namespace MarsRoverCase.Domain.Models
 {
-    public class Rover
+    public class RoverModel
     {
-        public Plateau Plateau;
-        public Position Position;
+        public PlateauModel Plateau;
+        public PositionModel Position;
         private DirectionState DirectionState;
 
-        public Rover(Position position, Plateau plateau)
+        public RoverModel(PositionModel position, PlateauModel plateau)
         {
             this.Plateau = plateau;
             this.Position = position;

@@ -5,7 +5,7 @@ namespace MarsRoverCase.Domain.States
 {
     public class WestDirectionState : DirectionState
     {
-        public WestDirectionState(Position Position, Plateau Plateau) : base(Position, Plateau) { }
+        public WestDirectionState(PositionModel Position, PlateauModel Plateau) : base(Position, Plateau) { }
 
         public override DirectionState MoveLeft()
         {

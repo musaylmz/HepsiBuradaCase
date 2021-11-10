@@ -23,26 +23,26 @@ namespace MarsRoverCase.UnitTest
         [InlineData("ALLLMM")]
         public void RoverMovement_WhenInvalidParameters_ReturnFalse(string movementRequest)
         {
-            bool result = movementRequest.CheckMovementParams();
+            var result = movementRequest.ConvertToMovementTypes();
 
-            Assert.False(result);
+            Assert.Null(result);
         }
 
         [Theory]
         [InlineData("RMRMMMM")]
         [InlineData("MMLMM")]
         [InlineData("LRMMMM")]
-        public void RoverMovement_WhenOutPlateau_ReturnError(string movementRequest)
+        public void RoverMovement_WhenOutPlateauParameters_ReturnError(string movementRequest)
         {
-            var plateau = new Plateau(5, 5);
-            var deploymentPosition = new Position(1, 2, DirectionType.N);
+            var plateau = new PlateauModel(5, 5);
+            var deploymentPosition = new PositionModel(1, 2, DirectionType.N);
 
-            var rover = new Rover(deploymentPosition, plateau)
+            var rover = new RoverModel(deploymentPosition, plateau)
             {
                 Movements = movementRequest.ToCharArray().Select(x => Enum.Parse<MovementType>(x.ToString())).ToList()
             };
 
-            var result = _roverService.RoverMovement(rover);
+            var result = _roverService.MoveRover(rover);
 
             Assert.False(result.IsSuccess);
             Assert.Null(result.Data);
@@ -53,16 +53,16 @@ namespace MarsRoverCase.UnitTest
         [InlineData("LMLMLMLMM")]
         public void RoverMovement_WhenTaskInput1_ReturnSuccess(string movementRequest)
         {
-            var plateau = new Plateau(5, 5);
-            var deploymentPosition = new Position(1, 2, DirectionType.N);
+            var plateau = new PlateauModel(5, 5);
+            var deploymentPosition = new PositionModel(1, 2, DirectionType.N);
 
-            var rover = new Rover(deploymentPosition, plateau)
+            var rover = new RoverModel(deploymentPosition, plateau)
             {
                 Movements = movementRequest.ToCharArray().Select(x => Enum.Parse<MovementType>(x.ToString())).ToList()
             };
 
-            var result = _roverService.RoverMovement(rover);
-            rover = (Rover)result.Data;
+            var result = _roverService.MoveRover(rover);
+            rover = (RoverModel)result.Data;
 
             Assert.True(result.IsSuccess);
             Assert.Null(result.Message);
@@ -75,16 +75,16 @@ namespace MarsRoverCase.UnitTest
         [InlineData("MMRMMRMRRM")]
         public void RoverMovement_WhenTaskInput2_ReturnSuccess(string movementRequest)
         {
-            var plateau = new Plateau(5, 5);
-            var deploymentPosition = new Position(3, 3, DirectionType.E);
+            var plateau = new PlateauModel(5, 5);
+            var deploymentPosition = new PositionModel(3, 3, DirectionType.E);
 
-            var rover = new Rover(deploymentPosition, plateau)
+            var rover = new RoverModel(deploymentPosition, plateau)
             {
                 Movements = movementRequest.ToCharArray().Select(x => Enum.Parse<MovementType>(x.ToString())).ToList()
             };
 
-            var result = _roverService.RoverMovement(rover);
-            rover = (Rover)result.Data;
+            var result = _roverService.MoveRover(rover);
+            rover = (RoverModel)result.Data;
 
             Assert.True(result.IsSuccess);
             Assert.Null(result.Message);
