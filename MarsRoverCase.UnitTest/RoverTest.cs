@@ -39,8 +39,6 @@ namespace MarsRoverCase.UnitTest
 
             var rover = new Rover(deploymentPosition, plateau)
             {
-                Plateau = plateau,
-                DeploymentPosition = deploymentPosition,
                 Movements = movementRequest.ToCharArray().Select(x => Enum.Parse<MovementType>(x.ToString())).ToList()
             };
 
@@ -60,8 +58,6 @@ namespace MarsRoverCase.UnitTest
 
             var rover = new Rover(deploymentPosition, plateau)
             {
-                Plateau = plateau,
-                DeploymentPosition = deploymentPosition,
                 Movements = movementRequest.ToCharArray().Select(x => Enum.Parse<MovementType>(x.ToString())).ToList()
             };
 
@@ -84,8 +80,6 @@ namespace MarsRoverCase.UnitTest
 
             var rover = new Rover(deploymentPosition, plateau)
             {
-                Plateau = plateau,
-                DeploymentPosition = deploymentPosition,
                 Movements = movementRequest.ToCharArray().Select(x => Enum.Parse<MovementType>(x.ToString())).ToList()
             };
 

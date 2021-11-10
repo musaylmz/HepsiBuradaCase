@@ -6,14 +6,17 @@ namespace MarsRoverCase.Domain.Models
 {
     public class Rover
     {
+        public Plateau Plateau;
+        public Position DeploymentPosition;
         private DirectionState DirectionState;
+
         public Rover(Position position, Plateau plateau)
         {
+            this.Plateau = plateau;
+            this.DeploymentPosition = position;
             this.DirectionState = DirectionStateFactory.Create(position, plateau);
         }
 
-        public Plateau Plateau { get; set; }
-        public Position DeploymentPosition { get; set; }
         public List<MovementType> Movements { get; set; }
         public void MoveStraight(out bool isOutPlateau)
         {

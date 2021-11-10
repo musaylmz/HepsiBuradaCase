@@ -1,4 +1,5 @@
-﻿using MarsRoverCase.Domain.Models;
+﻿using MarsRoverCase.Domain.Enums;
+using MarsRoverCase.Domain.Models;
 
 namespace MarsRoverCase.Domain.States
 {
@@ -8,11 +9,13 @@ namespace MarsRoverCase.Domain.States
 
         public override DirectionState MoveLeft()
         {
+            Position.Direction = DirectionType.E;
             return new EastDirectionState(Position, Plateau);
         }
 
         public override DirectionState MoveRight()
         {
+            Position.Direction = DirectionType.W;
             return new WestDirectionState(Position, Plateau);
         }
 
