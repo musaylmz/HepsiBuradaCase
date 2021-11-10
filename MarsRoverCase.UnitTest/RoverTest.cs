@@ -66,9 +66,9 @@ namespace MarsRoverCase.UnitTest
 
             Assert.True(result.IsSuccess);
             Assert.Null(result.Message);
-            Assert.Equal(1, rover.DeploymentPosition.X);
-            Assert.Equal(3, rover.DeploymentPosition.Y);
-            Assert.Equal(DirectionType.N, rover.DeploymentPosition.Direction);
+            Assert.Equal(1, rover.Position.X);
+            Assert.Equal(3, rover.Position.Y);
+            Assert.Equal(DirectionType.N, rover.Position.Direction);
         }
 
         [Theory]
@@ -88,9 +88,9 @@ namespace MarsRoverCase.UnitTest
 
             Assert.True(result.IsSuccess);
             Assert.Null(result.Message);
-            Assert.Equal(5, rover.DeploymentPosition.X);
-            Assert.Equal(1, rover.DeploymentPosition.Y);
-            Assert.Equal(DirectionType.E, rover.DeploymentPosition.Direction);
+            Assert.Equal(5, rover.Position.X);
+            Assert.Equal(1, rover.Position.Y);
+            Assert.Equal(DirectionType.E, rover.Position.Direction);
         }
     }
 }

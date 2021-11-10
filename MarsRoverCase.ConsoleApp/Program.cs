@@ -36,7 +36,7 @@ namespace MarsRoverCase.ConsoleApp
 
             var rover = RoverMovement(plateau, deploymentPosition);
 
-            Console.WriteLine($"Rover position: {rover.DeploymentPosition.X} {rover.DeploymentPosition.Y} {rover.DeploymentPosition.Direction}");
+            Console.WriteLine($"Rover position: {rover.Position.X} {rover.Position.Y} {rover.Position.Direction}");
         }
 
         private static Plateau DrawPlateau()
@@ -65,7 +65,7 @@ namespace MarsRoverCase.ConsoleApp
 
         private static Rover RoverMovement(Plateau plateau, Position deploymentPosition)
         {
-            Console.WriteLine("Enter rover movement parameter: (Exp: LMLMLMM)");
+            Console.WriteLine("Enter rover movement parameter: (Exp: LMLMLMLMM)");
 
             var roverMovementParams = Console.ReadLine();
 

@@ -7,13 +7,13 @@ namespace MarsRoverCase.Domain.Models
     public class Rover
     {
         public Plateau Plateau;
-        public Position DeploymentPosition;
+        public Position Position;
         private DirectionState DirectionState;
 
         public Rover(Position position, Plateau plateau)
         {
             this.Plateau = plateau;
-            this.DeploymentPosition = position;
+            this.Position = position;
             this.DirectionState = DirectionStateFactory.Create(position, plateau);
         }
 

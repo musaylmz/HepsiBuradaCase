@@ -39,7 +39,7 @@ namespace MarsRoverCase.Infrastructure.Services
 
         private static void GetLastPosition(Rover rover, out string lastPosition)
         {
-            lastPosition = $"{rover.DeploymentPosition.X} {rover.DeploymentPosition.Y} {rover.DeploymentPosition.Direction}";
+            lastPosition = $"{rover.Position.X} {rover.Position.Y} {rover.Position.Direction}";
         }
     }
 }
